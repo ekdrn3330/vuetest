@@ -12,14 +12,14 @@
 
   <Discount/>
 
+  <button @click="priceSort">가격순정렬</button>
+  <button @click="sortBack">되돌리기</button>
+  <button @click="priceSortReverse">가격역순정렬</button>
+  <button @click="alphabeticalOrder">가나다정렬</button>
+  
   <Card @openModal="모달창열렸니 = true; 누른거 = $event;" :원룸="원룸들[a]" v-for="(i, a) in 원룸들" :key="i" />
 
-  <!-- <div v-for="(a,i) in 원룸들" :key="i">
-    <img :src="a.image" alt="room_img" class="room-img">
-    <h4 @click="모달창열렸니 = true; 누른거 = i">{{ a.title }}</h4>
-    <p>{{ a.price }}원</p>
-    <button @click="신고수[i]++">허위매물신고</button> <span>신고수 : {{ 신고수[i] }}</span>
-  </div> -->
+
 
 </template>
 
@@ -34,6 +34,7 @@ export default {
   name: 'App',
   data(){
     return {
+      원룸들오리지널 : [...data],
       누른거 : 0,
       원룸들 : data,
       모달창열렸니 : false,
@@ -45,6 +46,24 @@ export default {
   methods: {
     increase(){
       this.신고수 += 1;
+    },
+    alphabeticalOrder(){
+      this.원룸들.sort((a, b) => {
+        return a.title < b.title ? -1 : a.title > b.title ? 1 : 0;
+      })
+    },
+    priceSortReverse(){
+      this.원룸들.sort(function(a, b){
+        return b.price - a.price;
+      });
+    },
+    sortBack(){
+      this.원룸들 = [...this.원룸들오리지널];
+    },
+    priceSort(){
+      this.원룸들.sort(function(a, b){
+        return a.price - b.price;
+      });
     }
   },
   components: {
@@ -56,9 +75,13 @@ export default {
 </script>
 
 <style>
-.fade-enter-from {opacity:0;}
-.fade-enter-active {transition:all .5s;}
-.fade-enter-to {opacity:1;}
+.fade-leave-from {opacity:1;}
+.fade-leave-active {transition:all .3s;}
+.fade-leave-to {opacity:0;}
+
+.fade-enter-from {transform:translateY(-1000px);}
+.fade-enter-active {transition:all .3s;}
+.fade-enter-to {transform:translateY(0);}
 
 body {
   margin: 0;
