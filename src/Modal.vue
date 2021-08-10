@@ -40,6 +40,12 @@ export default {
         누른거 : Number,
         모달창열렸니 : Boolean,
     },
+    beforeUpdate(){
+         if(this.month == 2){
+            alert('3개월 이상부터 결제가 가능합니다.');
+            this.month = '';
+        }
+    },
     components: {
         Discount,
     }

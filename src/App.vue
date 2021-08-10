@@ -10,7 +10,7 @@
     <a href="#" v-for="i in 메뉴들" :key="i">{{ i }}</a>
   </div>
 
-  <Discount/>
+  <Discount v-if="showDiscount == true" :percent="percent" />
 
   <button @click="priceSort">가격순정렬</button>
   <button @click="sortBack">되돌리기</button>
@@ -34,6 +34,8 @@ export default {
   name: 'App',
   data(){
     return {
+      percent : 30,
+      showDiscount : true,
       원룸들오리지널 : [...data],
       누른거 : 0,
       원룸들 : data,
@@ -65,6 +67,14 @@ export default {
         return a.price - b.price;
       });
     }
+  },
+  mounted(){
+    var percentStop = setInterval(() => {
+      this.percent --;
+      if(this.percent == 0) {
+        clearInterval(percentStop);
+      }
+    },1000);
   },
   components: {
     Discount,
